@@ -1,5 +1,7 @@
 import { useRef } from 'react';
-import { skills } from '../../data/skills';
+import { PortfolioService } from '../../services/PortfolioService';
+
+const skills = PortfolioService.getSkills();
 
 // EDIT HERE: Skills are automatically grouped by 5 items per card
 const skillGroups = Array.from(

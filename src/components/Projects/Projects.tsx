@@ -1,5 +1,7 @@
 import { useRef } from 'react';
-import { projects } from '../../data/projects';
+import { PortfolioService } from '../../services/PortfolioService';
+
+const projects = PortfolioService.getProjects();
 
 export default function Projects() {
   const carouselRef = useRef<HTMLDivElement>(null);

@@ -1,4 +1,6 @@
-import { socialLinks } from '../../data/socialLinks';
+import { PortfolioService } from '../../services/PortfolioService';
+
+const socialLinks = PortfolioService.getSocialLinks();
 
 export default function Contact() {
   return (
