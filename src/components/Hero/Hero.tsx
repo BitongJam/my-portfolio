@@ -1,4 +1,7 @@
+import { PortfolioService } from '../../services/PortfolioService';
 import Button from '../Button/Button';
+
+const heroDetails = await PortfolioService.getHeroDetails();
 
 export default function Hero() {
   return (
@@ -8,27 +11,28 @@ export default function Hero() {
             EDIT HERE: Greeting
             Change this text for your introduction.
         ===================================== */}
-        <p className="hero-greeting">Hello, I'm 👋</p>
+        <p className="hero-greeting">{heroDetails?.hero_greetings}</p>
 
         {/* =====================================
             EDIT HERE: Name
             Change your display name here.
         ===================================== */}
-        <h1>James Ortiz</h1>
+        <h1>{heroDetails?.hero_name}</h1>
 
         {/* =====================================
             EDIT HERE: Job Title
             Change your professional title here.
         ===================================== */}
-        <h2>Full Stack Developer</h2>
+        <h2>{heroDetails?.hero_position}</h2>
 
         {/* =====================================
             EDIT HERE: Description
             Change your personal description here.
         ===================================== */}
         <p className="hero-description">
-          I create modern, scalable, and elegant web applications using
-          frontend and backend technologies.
+          {/* I create modern, scalable, and elegant web applications using
+          frontend and backend technologies. */}
+          {heroDetails?.hero_description}
         </p>
 
         <div className="hero-actions">

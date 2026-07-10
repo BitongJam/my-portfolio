@@ -7,33 +7,40 @@ export type Skill = {
   percentage: number;
 };
 
+export type Hero = {
+  hero_name: string;
+  hero_greetings: string;
+  hero_position: string;
+  hero_description: string;
+}
+
 export class PortfolioService {
   // EDIT HERE: Replace this JSON source later with API calls if needed
   // static getSkills() {
   //   return portfolioData.skills;
   // }
 
-  
- static async getSkills(): Promise<Skill[]> {
-  try {
-     const { data, error } = await supabase
-      .from("skills")
-      .select("name, category, percentage");
 
-        console.log("Supabase response:", { data, error });
+  static async getSkills(): Promise<Skill[]> {
+    try {
+      const { data, error } = await supabase
+        .from("skills")
+        .select("name, category, percentage");
 
-    if (error) {
+      console.log("Supabase response:", { data, error });
+
+      if (error) {
+        console.error(error);
+        return [];
+      }
+      console.info("getskills: ", data)
+
+      return data ?? [];
+    } catch (error) {
       console.error(error);
-      return [];
+      return []
     }
-    console.info("getskills: ",data)
 
-    return data ?? [];
-  } catch (error) {
-     console.error(error);
-     return []
-  }
-   
   }
 
   static getProjects() {
@@ -43,4 +50,39 @@ export class PortfolioService {
   static getSocialLinks() {
     return portfolioData.socialLinks;
   }
+
+ static async getHeroDetails(): Promise<Hero | null> {
+  try {
+    const { data, error } = await supabase
+      .from("config_settings")
+      .select("field_name,value")
+      .in("field_name", [
+        "hero_name",
+        "hero_greetings",
+        "hero_position",
+        "hero_description"
+      ]);
+
+    if (error) {
+      console.error(error);
+      return null;
+    }
+
+    const hero = data.reduce((acc, item) => {
+      acc[item.field_name] = item.value;
+      return acc;
+    }, {} as Record<string, string>);
+
+    return {
+      hero_name: hero.hero_name ?? "",
+      hero_greetings: hero.hero_greetings ?? "",
+      hero_position: hero.hero_position ?? "",
+      hero_description: hero.hero_description ?? ""
+    };
+
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
 }
