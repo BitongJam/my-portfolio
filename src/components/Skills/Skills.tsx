@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { PortfolioService } from '../../services/PortfolioService';
 
-const skills = PortfolioService.getSkills();
+const skills = await PortfolioService.getSkills();
 
 // EDIT HERE: Skills are automatically grouped by 5 items per card
 const skillGroups = Array.from(
