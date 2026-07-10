@@ -12,6 +12,7 @@ export type Hero = {
   hero_greetings: string;
   hero_position: string;
   hero_description: string;
+  hero_img_url:string;
 }
 
 export class PortfolioService {
@@ -60,7 +61,8 @@ export class PortfolioService {
         "hero_name",
         "hero_greetings",
         "hero_position",
-        "hero_description"
+        "hero_description",
+        "hero_img_url"
       ]);
 
     if (error) {
@@ -77,7 +79,8 @@ export class PortfolioService {
       hero_name: hero.hero_name ?? "",
       hero_greetings: hero.hero_greetings ?? "",
       hero_position: hero.hero_position ?? "",
-      hero_description: hero.hero_description ?? ""
+      hero_description: hero.hero_description ?? "",
+      hero_img_url:hero.hero_img_url?? "https://placehold.co/420x420/111827/FFFFFF?text=Developer"
     };
 
   } catch (error) {

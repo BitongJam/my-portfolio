@@ -56,7 +56,7 @@ export default function Hero() {
         ===================================== */}
         <img
           loading="lazy"
-          src="https://placehold.co/420x420/111827/FFFFFF?text=Developer"
+          src={heroDetails?.hero_img_url}
           alt="Developer profile placeholder"
         />
         <div className="floating-card">Available for projects 🚀</div>
