@@ -1,16 +1,31 @@
-import { useRef } from 'react';
-import { PortfolioService } from '../../services/PortfolioService';
-
-const projects = PortfolioService.getProjects();
+import { useEffect, useRef, useState } from 'react';
+import { PortfolioService, type Projects } from '../../services/PortfolioService';
 
 export default function Projects() {
   const carouselRef = useRef<HTMLDivElement>(null);
+
+  const [projects, setProjects] = useState<Projects[]>([]);
+
+  useEffect(() => {
+    async function loadProjects() {
+      const data = await PortfolioService.getProjects();
+
+      if (data) {
+        setProjects(data);
+      }
+    }
+
+    loadProjects();
+  }, []);
 
   const scrollProjects = (direction: 'left' | 'right') => {
     if (!carouselRef.current) return;
 
     carouselRef.current.scrollBy({
-      left: direction === 'right' ? carouselRef.current.clientWidth : -carouselRef.current.clientWidth,
+      left:
+        direction === 'right'
+          ? carouselRef.current.clientWidth
+          : -carouselRef.current.clientWidth,
       behavior: 'smooth'
     });
   };
@@ -22,9 +37,13 @@ export default function Projects() {
         <p>Some of the applications and systems I have built.</p>
       </div>
 
-      {/* EDIT HERE: Add projects in src/data/projects.ts */}
       <div className="carousel-wrapper">
-        <button className="carousel-btn" onClick={() => scrollProjects('left')}>←</button>
+        <button
+          className="carousel-btn"
+          onClick={() => scrollProjects('left')}
+        >
+          ←
+        </button>
 
         <div className="projects-carousel" ref={carouselRef}>
           {projects.map((project) => (
@@ -39,13 +58,20 @@ export default function Projects() {
                   ))}
                 </div>
 
-                <a href={project.link}>View Project →</a>
+                <a href={project.link}>
+                  View Project →
+                </a>
               </div>
             </article>
           ))}
         </div>
 
-        <button className="carousel-btn" onClick={() => scrollProjects('right')}>→</button>
+        <button
+          className="carousel-btn"
+          onClick={() => scrollProjects('right')}
+        >
+          →
+        </button>
       </div>
     </section>
   );

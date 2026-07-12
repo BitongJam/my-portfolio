@@ -1,5 +1,6 @@
+import { PortfolioService } from '../../services/PortfolioService';
 import SectionTitle from '../SectionTitle/SectionTitle';
-
+const aboutme = await PortfolioService.getAboutMeDetails()
 export default function About() {
   return (
     <section id="about" className="section about-section">
@@ -10,9 +11,9 @@ export default function About() {
         <div className="about-card">
           <h3>Who I Am</h3>
           <p>
-            I am a software developer focused on building reliable, scalable,
-            and user-friendly applications. I enjoy turning ideas into
-            practical solutions through clean code and modern technologies.
+            {
+              aboutme?.whoami
+            }
           </p>
         </div>
 
@@ -20,10 +21,7 @@ export default function About() {
         <div className="about-card">
           <h3>Experience</h3>
           <p>
-            My experience covers frontend development, backend systems,
-            databases, enterprise applications, and application deployment.
-            I work with technologies that help businesses improve their
-            workflow and productivity.
+            {aboutme?.experience}
           </p>
         </div>
 
@@ -31,9 +29,7 @@ export default function About() {
         <div className="about-card">
           <h3>My Approach</h3>
           <p>
-            I believe in continuous learning, maintainable architecture, and
-            creating solutions that are easy to understand and extend in the
-            future.
+           {aboutme?.myapproach}
           </p>
         </div>
       </div>
