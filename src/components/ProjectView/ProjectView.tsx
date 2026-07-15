@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PortfolioService } from '../../services/PortfolioService';
 import type { ProjectProps } from '../../models/project';
-import Navbar from '../Navbar/Navbar';
 
 
 

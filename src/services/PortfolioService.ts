@@ -4,7 +4,6 @@ import type { HeroProps } from '../models/hero';
 import type { ProjectProps } from '../models/project';
 import type { SkillProps } from '../models/skill';
 import supabase from './supabase';
-import portfolioData from './test.json';
 
 export class PortfolioService {
 
@@ -13,7 +12,7 @@ export class PortfolioService {
     try {
       const { data, error } = await supabase
         .from("skills")
-        .select("name, category, percentage");
+        .select("id,name, category, percentage");
 
       console.log("Supabase response:", { data, error });
 
