@@ -1,41 +1,15 @@
+import type { AboutMeProps } from '../models/aboutme';
+import type { ContactProps } from '../models/contact';
+import type { HeroProps } from '../models/hero';
+import type { ProjectProps } from '../models/project';
+import type { SkillProps } from '../models/skill';
 import supabase from './supabase';
 import portfolioData from './test.json';
 
-export type Skill = {
-  name: string;
-  category: string;
-  percentage: number;
-};
-
-export type Hero = {
-  hero_name: string;
-  hero_greetings: string;
-  hero_position: string;
-  hero_description: string;
-  hero_img_url: string;
-}
-
-export type Projects = {
-  title: string;
-  description: string;
-  tech: string[];
-  link: string;
-}
-
-export type AboutMe = {
-  whoami: string;
-  experience:string;
-  myapproach:string;
-}
-
 export class PortfolioService {
-  // EDIT HERE: Replace this JSON source later with API calls if needed
-  // static getSkills() {
-  //   return portfolioData.skills;
-  // }
 
 
-  static async getSkills(): Promise<Skill[]> {
+  static async getSkills(): Promise<SkillProps[]> {
     try {
       const { data, error } = await supabase
         .from("skills")
@@ -57,15 +31,48 @@ export class PortfolioService {
 
   }
 
-  // static getProjects() {
-  //   return portfolioData.projects;
-  // }
+  static async  getContactDetails() : Promise<ContactProps> {
+       try {
+      const { data, error } = await supabase
+        .from("config_settings")
+        .select("field_name,value")
+        .in("field_name", [
+          "contact_email",
+          "contact_phoneno",
+          "contact_city"
+        ]);
 
-  static getSocialLinks() {
-    return portfolioData.socialLinks;
+      if (error) {
+        console.error(error);
+        return {
+          email: "",
+          phone: "",
+          address: ""
+        };
+      }
+
+      const contact = data.reduce((acc, item) => {
+        acc[item.field_name] = item.value;
+        return acc;
+      }, {} as Record<string, string>);
+
+      return {
+        email: contact.contact_email ?? "",
+        phone: contact.contact_phoneno ?? "",
+        address: contact.contact_city ?? ""
+      };
+
+    } catch (error) {
+      console.error(error);
+      return {
+        email: "",
+        phone: "",
+        address: ""
+      };
+    }
   }
 
-  static async getHeroDetails(): Promise<Hero | null> {
+  static async getHeroDetails(): Promise<HeroProps | null> {
     try {
       const { data, error } = await supabase
         .from("config_settings")
@@ -102,12 +109,12 @@ export class PortfolioService {
     }
   }
 
-  static async getProjects(): Promise<Projects[] | null> {
+  static async getProjects(): Promise<ProjectProps[] | null> {
 
     try {
       const { data, error } = await supabase
         .from("projects")
-        .select("title,description,link,project_tech(name)")
+        .select("id,title,description,link,project_tech(name)")
 
       if (error) {
         console.error(error);
@@ -115,6 +122,7 @@ export class PortfolioService {
       }
 
       return data.map(project => ({
+        id: project.id ?? 0,
         title: project.title ?? "",
         description: project.description ?? "",
         tech: project.project_tech?.map(t => t.name) ?? [],
@@ -128,7 +136,34 @@ export class PortfolioService {
     }
   }
 
-  static async getAboutMeDetails():Promise<AboutMe | null>
+  static async getProjectById(id: number): Promise<ProjectProps | null> {
+    try {
+      const { data, error } = await supabase
+        .from("projects")
+        .select("id,title,description,link,project_tech(name),details")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        console.error(error);
+        return null;
+      }
+
+      return {
+        id:data.id ?? 0,
+        title: data.title ?? "",
+        description: data.description ?? "",
+        tech: data.project_tech?.map(t => t.name) ?? [],
+        link: data.link ?? "",
+        details: data.details ?? "",
+      };
+    }catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+  
+  static async getAboutMeDetails():Promise<AboutMeProps | null>
   {
      try {
       const { data, error } = await supabase

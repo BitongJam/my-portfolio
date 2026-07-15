@@ -2,36 +2,17 @@ import { PortfolioService } from '../../services/PortfolioService';
 import Button from '../Button/Button';
 
 const heroDetails = await PortfolioService.getHeroDetails();
+const skills = await PortfolioService.getSkills();
 
 export default function Hero() {
   return (
     <section id="home" className="section hero-modern">
       <div className="hero-content animate-left">
-        {/* =====================================
-            EDIT HERE: Greeting
-            Change this text for your introduction.
-        ===================================== */}
         <p className="hero-greeting">{heroDetails?.hero_greetings}</p>
 
-        {/* =====================================
-            EDIT HERE: Name
-            Change your display name here.
-        ===================================== */}
         <h1>{heroDetails?.hero_name}</h1>
-
-        {/* =====================================
-            EDIT HERE: Job Title
-            Change your professional title here.
-        ===================================== */}
         <h2>{heroDetails?.hero_position}</h2>
-
-        {/* =====================================
-            EDIT HERE: Description
-            Change your personal description here.
-        ===================================== */}
         <p className="hero-description">
-          {/* I create modern, scalable, and elegant web applications using
-          frontend and backend technologies. */}
           {heroDetails?.hero_description}
         </p>
 
@@ -41,10 +22,12 @@ export default function Hero() {
         </div>
 
         <div className="tech-badges">
-          <span>React</span>
-          <span>TypeScript</span>
-          <span>Node.js</span>
-          <span>SQL</span>
+          {
+            skills.map((skill) => (
+              <span key={skill.name} className="tech-badge">{skill.name}</span>
+            ))
+          }
+
         </div>
       </div>
 

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { PortfolioService, type Projects } from '../../services/PortfolioService';
+import { PortfolioService } from '../../services/PortfolioService';
+import type { ProjectProps } from '../../models/project';
 
 export default function Projects() {
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  const [projects, setProjects] = useState<Projects[]>([]);
+  const [projects, setProjects] = useState<ProjectProps[]>([]);
 
   useEffect(() => {
     async function loadProjects() {
@@ -58,7 +59,7 @@ export default function Projects() {
                   ))}
                 </div>
 
-                <a href={project.link}>
+                <a href={project.id ? `/project/${project.id}` : '#'} className="project-link">
                   View Project →
                 </a>
               </div>

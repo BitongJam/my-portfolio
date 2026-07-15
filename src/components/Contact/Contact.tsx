@@ -1,6 +1,6 @@
 import { PortfolioService } from '../../services/PortfolioService';
 
-const socialLinks = PortfolioService.getSocialLinks();
+const contact = await PortfolioService.getContactDetails();
 
 export default function Contact() {
   return (
@@ -22,18 +22,18 @@ export default function Contact() {
           </div>
 
           <div className="contact-details">
-            <p>📧 your@email.com</p>
-            <p>📱 +63 XXX XXX XXXX</p>
-            <p>📍 Philippines</p>
+            <p>📧 {contact.email}</p>
+            <p>📱 {contact.phone}</p>
+            <p>📍 {contact.address}</p>
           </div>
 
-          <div className="social-links">
+          {/* <div className="social-links">
             {socialLinks.map((social) => (
               <a key={social.name} href={social.url} target="_blank" rel="noreferrer">
                 {social.name}
               </a>
-            ))}
-          </div>
+            ))} 
+          </div>*/}
         </div>
 
         <form className="contact-form animate-right">
