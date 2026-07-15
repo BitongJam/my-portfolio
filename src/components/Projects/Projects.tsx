@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { PortfolioService } from '../../services/PortfolioService';
 import type { ProjectProps } from '../../models/project';
+import { Link } from 'react-router-dom';
 
 export default function Projects() {
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -59,9 +60,13 @@ export default function Projects() {
                   ))}
                 </div>
 
-                <a href={project.id ? `/project/${project.id}` : '#'} className="project-link">
+
+                <Link
+                  to={project.id ? `/project/${project.id}` : "#"}
+                  className="project-link"
+                >
                   View Project →
-                </a>
+                </Link>
               </div>
             </article>
           ))}
